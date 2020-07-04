@@ -10,6 +10,10 @@ class StocksController < ApplicationController
     response = HTTParty.get("https://spreadsheets.google.com/feeds/list/0AhySzEddwIC1dEtpWF9hQUhCWURZNEViUmpUeVgwdGc/1/public/basic?alt=json", headers: { 
       "Accept" => "application/json"
     })
+    byebug
+    serializedresponce = {
+      id: response.to_h[]
+    }
     render json: response.to_h
   end
 
