@@ -13,9 +13,15 @@ class StocksController < ApplicationController
     render json: response.to_h
   end
 
+  "/stocks/:id"
 
   def show
-
+    stock_symbol = params[:stock_symbol] + ".L"
+    response = HTTParty.get("https://spreadsheets.google.com/feeds/list/0AhySzEddwIC1dEtpWF9hQUhCWURZNEViUmpUeVgwdGc/1/public/basic?alt=json&sq=symbol=#{stock_symbol}", headers: { 
+      "Accept" => "application/json"
+    })
+    
+    render json: response.body
   end
 
 end
