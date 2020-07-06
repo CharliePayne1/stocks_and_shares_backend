@@ -1,30 +1,19 @@
 class StocksController < ApplicationController
-# need a stock controller but no stock model as we are not storing them in the backend 
-# ask our backend to fetch the information for us rather than the frontend
-# http requests library which will deal with fetch requests - rest-rlient is a gem 
-# when we require the gem, we can use the RestClient 
-# have two routes in our stock controller: index and show 
-# dont build out all the routes and actions until we have built the front end 
 
   def index
-    response = HTTParty.get("https://spreadsheets.google.com/feeds/list/0AhySzEddwIC1dEtpWF9hQUhCWURZNEViUmpUeVgwdGc/1/public/basic?alt=json", headers: { 
+    response = HTTParty.get("http://api.marketstack.com/v1/eod?access_key=#{ENV['API_SECRET_KEY']}&symbols=MSFT,AAPL,AMZN,GOOG,GOOGL,FB,VOD,INTC,CMCSA,PEP,ADBE,CSCO,NVBA,NFLX,TSLA,COST,PYPL,AMGN,FNY,ASML", headers: { 
       "Accept" => "application/json"
     })
-    byebug
-    serializedresponce = {
-      id: response.to_h[]
-    }
     render json: response.to_h
   end
 
   "/stocks/:id"
 
   def show
-    stock_symbol = params[:stock_symbol] + ".L"
-    response = HTTParty.get("https://spreadsheets.google.com/feeds/list/0AhySzEddwIC1dEtpWF9hQUhCWURZNEViUmpUeVgwdGc/1/public/basic?alt=json&sq=symbol=#{stock_symbol}", headers: { 
+    stock_symbol = params[:stock_symbol]
+    response = HTTParty.get("http://api.marketstack.com/v1/eod?access_key=#{ENV['API_SECRET_KEY']}&symbols=#{stock_symbol}", headers: { 
       "Accept" => "application/json"
     })
-    
     render json: response.body
   end
 
