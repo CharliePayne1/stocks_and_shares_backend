@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get '/stocks', to: 'stocks#index'
   post '/stocks', to: 'stocks#index'
+  # not being used yet 
   get '/stocks/:stock_symbol', to: 'stocks#show'
   get '/stocks/:stock_symbol/:date', to: 'stocks#show'
   

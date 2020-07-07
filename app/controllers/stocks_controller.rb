@@ -6,6 +6,7 @@ class StocksController < ApplicationController
       additionalUrl = "&date_from=#{params[:date]}T00:00:00+0000&date_to=#{params[:date]}T00:00:00+0000"  
         finalUrl = builtUrl + additionalUrl
     else finalUrl = builtUrl
+
       end
     response = HTTParty.get(finalUrl, headers: { 
       "Accept" => "application/json"

@@ -7,7 +7,7 @@ class AuthController < ApplicationController
         payload = encode_token({ user_id: @user.id, username: @user.username })
         render json: { user: @user, jwt: payload }, status: :accepted
       else
-        render json: { message: "Invalid username or password" }, status: :unauthorized
+        render json: { message: "Invalid username or password" }, status: :not_acceptable
       end
     end
   
