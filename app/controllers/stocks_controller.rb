@@ -2,15 +2,16 @@ class StocksController < ApplicationController
 
   def index
     builtUrl = "http://api.marketstack.com/v1/eod?access_key=#{ENV['API_SECRET_KEY']}&symbols=MSFT,AAPL,AMZN,GOOG,GOOGL,FB,VOD,INTC,CMCSA,PEP,ADBE,CSCO,NVBA,NFLX,TSLA,COST,PYPL,AMGN,FNY,ASML"
-    builtUrl += "&date_from=#{params[:date]}T00:00:00+0000&date_to=#{params[:date]}T00:00:00+0000" if params[:date]
-    
-    response = HTTParty.get(builtUrl, headers: { 
+    if params[:date]
+      additionalUrl = "&date_from=#{params[:date]}T00:00:00+0000&date_to=#{params[:date]}T00:00:00+0000"  
+        finalUrl = builtUrl + additionalUrl
+    else finalUrl = builtUrl
+      end
+    response = HTTParty.get(finalUrl, headers: { 
       "Accept" => "application/json"
     })
-    render json: response.to_h
+    render json: response
   end
-
-  "/stocks/:id"
 
   def show
     stock_symbol = params[:stock_symbol]
@@ -18,6 +19,12 @@ class StocksController < ApplicationController
       "Accept" => "application/json"
     })
     render json: response.body
+  end
+
+  private
+
+  def stock_params
+  params.require(:stock).permit(:date)
   end
 
 end
