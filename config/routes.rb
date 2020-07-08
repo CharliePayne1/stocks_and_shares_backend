@@ -9,5 +9,9 @@ Rails.application.routes.draw do
   # not being used yet 
   get '/stocks/:stock_symbol', to: 'stocks#show'
   get '/stocks/:stock_symbol/:date', to: 'stocks#show'
+
+  post "/transactions", to: "transactions#create"
+  get "/transactions", to: "transactions#index"
+  delete "/transactions/:id", to: "transactions#destroy"
   
 end

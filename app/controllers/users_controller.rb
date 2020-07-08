@@ -3,7 +3,6 @@ class UsersController < ApplicationController
  
   def create
     @user = User.create(user_params)
-    byebug
     if @user.valid?
       @token = encode_token(user_id: @user.id)
       render json: { user: @user, jwt: @token }, status: :created
@@ -13,8 +12,9 @@ class UsersController < ApplicationController
   end
 
   def profile
+    byebug
     @user = current_user
-    render json: { user: @user, jwt: encode_token(user_id: @user.id) }
+    render json: { user: @user, transactions: @user.transactions, jwt: encode_token(user_id: @user.id) }
   end
 
   private
