@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
-  skip_before_action :authorized, only: [:create]
+  # skip_before_action :authorized, only: [:create]
  
   def create
     @user = User.create(user_params)
     if @user.valid?
-      @token = encode_token(user_id: @user.id)
+      payload = { user_id: @user.id }
+      @token = encode_token(payload)
       render json: { user: @user, jwt: @token }, status: :created
     else
       render json: { error: 'failed to create user' }, status: :not_acceptable
@@ -12,9 +13,12 @@ class UsersController < ApplicationController
   end
 
   def profile
-    byebug
     @user = current_user
-    render json: { user: @user, transactions: @user.transactions, jwt: encode_token(user_id: @user.id) }
+    if @user
+      render json: { user: @user, transactions: @user.transactions, jwt: encode_token(user_id: @user.id) }
+    else
+      render json: { message: 'Please log in' }, status: :unauthorized
+    end
   end
 
   private

@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    before_action :authorized
+    # before_action :authorized
  
   def encode_token(payload)
     # should store secret in env variable
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
  
   def decoded_token
     if auth_header
-      token = auth_header.split(' ')[1]
+      token = auth_header
       # header: { 'Authorization': 'Bearer <token>' }
       begin
         JWT.decode(token, 'my_s3cr3t')
@@ -30,11 +30,15 @@ class ApplicationController < ActionController::API
     end
   end
  
-  def logged_in?
-    !!current_user
-  end
+  # def logged_in?
+  #   !!current_user
+  # end
  
-  def authorized
-    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
-  end
+  # def authorized
+  #   if logged_in?
+  #     render json: { message: 'Welcome' }, status: :ok
+  #   else
+  #     render json: { message: 'Please log in' }, status: :unauthorized
+  #   end
+  # end
 end
