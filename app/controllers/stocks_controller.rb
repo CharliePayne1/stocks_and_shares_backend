@@ -11,7 +11,10 @@ class StocksController < ApplicationController
     response = HTTParty.get(finalUrl, headers: { 
       "Accept" => "application/json"
     })
-    render json: response
+    second_response = HTTParty.get("https://api.nytimes.com/svc/topstories/v2/business.json?api-key=#{ENV['NEWS_API_KEY']}", headers: { 
+      "Accept" => "application/json"
+    })
+    render json: {response: response, news: second_response}
   end
 
   def show
