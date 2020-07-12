@@ -1,17 +1,12 @@
 Rails.application.routes.draw do
 
   resources :users, only: [:create]
-      post '/login', to: 'auth#create'
-      get '/profile', to: 'users#profile'
+  resources :stocks, only: [:index]
+  resources :transactions, only: [:create, :destroy]
 
-  get '/stocks', to: 'stocks#index'
+  post '/login', to: 'auth#login'
+  get '/profile', to: 'users#profile'
+  
   post '/stocks', to: 'stocks#index'
-  # not being used yet 
-  get '/stocks/:stock_symbol', to: 'stocks#show'
-  get '/stocks/:stock_symbol/:date', to: 'stocks#show'
-
-  post "/transactions", to: "transactions#create"
-  get "/transactions", to: "transactions#index"
-  delete "/transactions/:id", to: "transactions#destroy"
   
 end

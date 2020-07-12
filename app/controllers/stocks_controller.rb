@@ -1,16 +1,7 @@
 class StocksController < ApplicationController
 
   def index
-    builtUrl = "http://api.marketstack.com/v1/eod?access_key=#{ENV['API_SECRET_KEY']}&symbols=MSFT,AAPL,AMZN,GOOG,GOOGL,FB,VOD,INTC,CMCSA,PEP,ADBE,CSCO,NVBA,NFLX,TSLA,COST,PYPL,AMGN,FNY,ASML"
-    if params[:date]
-      additionalUrl = "&date_from=#{params[:date]}T00:00:00+0000&date_to=#{params[:date]}T00:00:00+0000"  
-        finalUrl = builtUrl + additionalUrl
-    else finalUrl = builtUrl
-
-      end
-    response = HTTParty.get(finalUrl, headers: { 
-      "Accept" => "application/json"
-    })
+    response = Stock.get_stocks(params[:date])
     second_response = HTTParty.get("https://api.nytimes.com/svc/topstories/v2/business.json?api-key=#{ENV['NEWS_API_KEY']}", headers: { 
       "Accept" => "application/json"
     })

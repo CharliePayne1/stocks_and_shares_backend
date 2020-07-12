@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  # skip_before_action :authorized, only: [:create]
  
   def create
     @user = User.create(user_params)
@@ -15,7 +14,7 @@ class UsersController < ApplicationController
   def profile
     @user = current_user
     if @user
-      render json: { user: @user, transactions: @user.transactions, jwt: encode_token(user_id: @user.id) }
+      render json: { user: @user, transactions: @user.calculate_transactions, jwt: encode_token(user_id: @user.id) }
     else
       render json: { message: 'Please log in' }, status: :unauthorized
     end
